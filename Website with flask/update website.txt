@@ -1,0 +1,13 @@
+change the thing!
+
+in terminal, in root directory (for this first one its mysite folder)
+heroku login
+
+cmd below
+heroku git:remote --app asukurra <this is the app name>
+
+git add . <this is add all files to git folder>
+
+git commit -m "this is a commment on what the update is"
+
+git push heroku master
