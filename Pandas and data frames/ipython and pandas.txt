@@ -1,0 +1,58 @@
+# PS C:\Users\shado\Desktop\Python jazz> ipython
+# Python 3.8.5 (tags/v3.8.5:580fbb0, Jul 20 2020, 15:43:08) [MSC v.1926 32 bit (Intel)]
+# Type 'copyright', 'credits' or 'license' for more information
+# IPython 7.19.0 -- An enhanced Interactive Python. Type '?' for help.
+
+# In [1]: import pandas
+
+# In [2]: df1 =pandas.DataFrame
+
+# In [3]: df1 =pandas.DataFrame([[2,4,6],[10,20,30]])
+
+# the above is  setting a new data frame into a varibule and passing it a list of lists [2,4,6] and [10,20,30]
+
+# In [4]: df1
+# Out[4]: 
+#     0   1   2
+# 0   2   4   6
+# 1  10  20  30
+
+# the output here shows the colum names on the top row and the index on the left colum, as we passed no names they default to 0 1 2 3 etc
+
+# In [5]: df1 =pandas.DataFrame([[2,4,6],[10,20,30]],columns=["Price","Age","Value"])
+
+# by passing the argument of columns = [list , of , names] we can name the columns, you must pass a name for every colum you have made 
+
+#    Price  Age  Value
+# 0      2    4      6
+# 1     10   20     30
+
+# you can do the same with the index names as well 
+# df1 =pandas.DataFrame([[2,4,6],[10,20,30]],columns=["Price","Age","Value"],index=["first","second"])
+
+#         Price  Age  Value
+# first       2    4      6
+# second     10   20     30
+
+# you generally dont want to add index names and you can have columns with 10,000 rows for example
+
+# you can use dir(df1) inside ipython to get the methods attached to this DataFrame
+# for the example we can use the .mean method 
+
+# In [10]: df1.mean()
+# Out[10]: 
+# Price     6.0
+# Age      12.0
+# Value    18.0
+# dtype: float64
+
+# or we can get the mean of the averages of these 
+# In [11]: df1.mean().mean()
+# Out[11]: 12.0
+
+# you can call just one column as well with .<column name> - note that this is case senstive 
+# In [13]: df1.Price
+# Out[13]: 
+# first      2
+# second    10
+# Name: Price, dtype: int64
