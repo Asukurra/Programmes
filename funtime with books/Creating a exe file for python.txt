@@ -1,0 +1,6 @@
+install pyinstaller through PIP
+
+run pyinstaller --onefile --windowed 'filepath'
+this makes all files that interact with the .py into a single .exe file
+
+saves to host location for the folder tree - in my current case - Python jazz > dist - is in here
