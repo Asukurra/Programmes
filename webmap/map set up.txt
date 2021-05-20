@@ -1,0 +1,18 @@
+
+>>> import folium
+>>> map = folium.map(location=[80,-100])
+Traceback (most recent call last):        
+File "<stdin>", line 1, in <module>     
+TypeError: 'module' object is not callable
+>>> map = folium.Map(location=[80,-100]) 
+>>> map.save("Map1.html")
+>>> 
+
+open a cmd terminal, run python then import folium
+set a vari = folium.Map(location=[long *is -90 to 90*,lat *is -180 to 180*])
+this will set the map object to default to that lat long on the lap
+variName.save("filename.html")
+folium translates python code into html, css and java for web app useage 
+
+map = folium.Map(location=[80,-100], zoom_start = 6)
+you can use the zoom_start = number to set the default zoom level
