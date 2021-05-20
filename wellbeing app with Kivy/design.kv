@@ -1,0 +1,128 @@
+<LoginScreen>:
+    GridLayout:
+        cols: 1
+        GridLayout:
+            cols: 1
+            padding: 15,15
+            spacing: 20,20
+            Label:
+                text: "User Login"
+                font_size: "20sp"
+            TextInput:
+                id: username
+                hint_text: "Username"
+            TextInput:
+                id: password
+                hint_text: "Password"
+                password: True
+            RelativeLayout:
+                Button:
+                    text: "Login"
+                    on_press: root.login(root.ids.username.text, root.ids.password.text)
+                    size_hint: 0.4,0.8
+                    pos_hint: {'center_x':0.5, 'center_y':0.6}
+            Label:
+                id: login_wrong
+                text: ""
+        GridLayout:
+            cols: 2
+            size_hint: 0.2,0.2
+            padding: 10,10
+            spacing: 10,0
+            Button:
+                text:"Forgot Password"
+                background_color: 1,1,1,0 #this is RGB values and alpha
+                opacity: 1 if self.state == 'normal' else 0.5
+#this is to make the text have a visual change when clicking on it -
+#there are several built in 'states' for kivy objects like pressed, normal etc
+                color: .1,.7,1,1
+            Button:
+                text:"Sign up"
+                on_press: root.sign_up()
+# the root here refers to the first instance of this area - in this case its LoginScreen -
+#that links to the class LoginScreen from main.py
+# so we can call any functions from the root class and can define them there
+                background_color: 1,1,1,0 #this is RGB values and alpha
+                opacity: 1 if self.state == 'normal' else 0.5
+                color: .1,.7,1,1
+
+<SignUpScreen>:
+    GridLayout:
+        cols: 1
+        padding: 15,15
+        spacing: 20,20
+        Label:
+            text: "Time to sign up!"
+        TextInput:
+            id: username
+            hint_text: "Username"
+# the id passed here is what we look at below in the onpress root.id.<id here>
+        TextInput:
+            id: password
+            hint_text: "Password"
+        Button:
+            text: "Sign up!"
+            on_press: root.add_user(root.ids.username.text, root.ids.password.text)
+# the root.ids.<id> is what we specicy as the id in the grid layouts above - the .text is so we can read it
+
+<SignUpScreenConfirm>:
+    GridLayout:
+        cols: 1
+        Label:
+            text: "User Created!"
+        Button:
+            text: "back to users"
+            on_press: root.menu_main()
+
+<LoginSuccess>:
+    GridLayout:
+        cols: 1
+        padding: 30,30
+        spacing: 30,30
+        RelativeLayout:
+            ImageButton:
+                on_press: root.log_out()
+                source: 'wellbeing app with Kivy/logout_hover.png' if self.hovered else "wellbeing app with Kivy/logout_nothover.png"
+                size_hint: 0.35,0.35
+                pos_hint: {'center_x':0.93, 'center_y':0.8}
+        Label:
+            text:"how do you feel?"
+        TextInput:
+            id: feeling
+            hint_text:"things to try...happy, sad, unloved"
+        Button:
+            text:"click to feel better"
+            on_press: root.get_quote(root.ids.feeling.text)
+        ScrollView:
+            Label:
+                id: quote
+                text:""
+                text_size: self.width, None
+    # this text_size specifies an area for where the text can go, self.width or height is the size of the grid object it has available 
+                size_hint_y: None # this removes the default sizeing of the widget given by the grid layout and replaces with a default 100px but ignores other widgets
+                height: self.texture_size[1] #this texture_size is a tupule of width, height so this dynamically resizes the height of the label element to the height of the text filling it
+
+<RootWidget>:
+    LoginScreen:
+        name:"login_screen"
+    SignUpScreen:
+        name:"sign_up_screen"
+    SignUpScreenConfirm:
+        name:"sign_up_confirm"
+    LoginSuccess:
+        name:"log_in_screen_success"
+
+
+# you add all the screens in the rules above as a child to the RootWidget screen
+# the syntex for this is the same as Python everything is indent specific but nested like HTML
+#but have to specify colums and rows if you want
+# the heriacy is
+# App
+#     ScreenManaer(RootWidget)
+#         Screen(LoginScreen)
+#         Screen(second_screen)
+#         Screen(Third_screen)
+#             grid_layout
+#                 text in grid_layout
+#                 button in grid_layout
+#ALL NEW SCREENS NEED A CLASS IN THE PYTHON FILE
