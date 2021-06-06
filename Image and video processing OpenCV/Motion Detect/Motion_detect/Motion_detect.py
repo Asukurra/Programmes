@@ -1,9 +1,11 @@
 import cv2, time, pandas
 from datetime import datetime
+from bokeh.plotting import figure,show,output_file
+from bokeh.models import HoverTool, ColumnDataSource
 
 video = cv2.VideoCapture(0,cv2.CAP_DSHOW)
 first_frame = None
-status_list = [None,None]
+status_list = [None,None]  #this is set to None, None because it needs 2 valid entries for the if datetime block below
 times = []
 df = pandas.DataFrame(columns=["Start","End"])
 
@@ -46,6 +48,8 @@ while True:
 
     #making a new array for when there is something in the shot and when there is not by appending each loop pass
     status_list.append(status)
+    #memory issues when running for a long time = only keeping the last 2 elements in the array 
+    status_list = status_list[-2:]
 
     #checking the last 2 elements of the list array to see if it has changed - this triggers a datestamp for it in a new array called times so we have access to when an object enters and leaves the frame
     if status_list[-1] ==1 and status_list[-2]==0:
@@ -70,6 +74,25 @@ print(status_list)
 # for loop with step of 2 to read all the start times from the array, adding into dictonary and usinf i+1 to access the end times (when item has left the frame)
 for i in range(0,len(times),2):
     df = df.append({"Start":times[i], "End":times[i+1]}, ignore_index=True)
+
+# below is all the bokeh graph creation and modifying
+df["Start_string"] = df["Start"].dt.strftime("%H:%M:%S: %d-%m-%Y")
+df["End_string"] = df["End"].dt.strftime("%H:%M:%S: %d-%m-%Y")
+
+cds = ColumnDataSource(df)
+
+f = figure(x_axis_type='datetime',height=100, width=500,sizing_mode = "scale_width", title="Motion Graph")
+f.yaxis.minor_tick_line_color=None
+f.yaxis[0].ticker.desired_num_ticks=1
+f.yaxis.visible = False
+
+hover = HoverTool(tooltips=[("Start","@Start_string"),("End","@End_string")])
+f.add_tools(hover)
+
+q=f.quad("Start","End",bottom=0,top=1,color="green", source=cds)
+
+output_file("motion graph.html")
+show(f)
 
 df.to_csv("Image and video processing OpenCV/Motion Detect/Motion_detect/Motion_Times.csv")    
 
