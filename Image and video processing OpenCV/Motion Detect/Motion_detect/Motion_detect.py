@@ -41,7 +41,7 @@ while True:
     for contour in cnts:
         if cv2.contourArea(contour) < 20000:
             continue
-        status = 1   # while the contor is over the value above it sets status to 1
+        status = 1   # while the contour is over the value above it sets status to 1
 
         (x,y,w,h) = cv2.boundingRect(contour)
         cv2.rectangle(frame, (x,y),(x+w, y+h), (0,255,0), 3)
